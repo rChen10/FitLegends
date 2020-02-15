@@ -1,6 +1,7 @@
 package com.example.fitlegends;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -88,11 +89,13 @@ public class FullscreenActivity extends AppCompatActivity {
 
     private int stamina = 1;
     private TextView staminaView;
+    Dialog myDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_fullscreen);
+        myDialog = new Dialog(this);
 
         mVisible = true;
         mControlsView = findViewById(R.id.fullscreen_content_controls);
@@ -121,7 +124,23 @@ public class FullscreenActivity extends AppCompatActivity {
         // Upon interacting with UI controls, delay any scheduled hide()
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
-        findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
+
+    }
+
+    public void ShowParty(View v){
+        TextView t;
+        Button b;
+        myDialog.setContentView(R.layout.partymenu);
+        t = (TextView) myDialog.findViewById(R.id.close);
+        b = (Button) myDialog.findViewById(R.id.partyButton);
+
+        t.setOnClickListener(new View.OnClickListener(){
+            @Override
+             public void onClick(View v){
+                myDialog.dismiss();
+            }
+        });
+        myDialog.show();
     }
 
     @Override
@@ -177,4 +196,5 @@ public class FullscreenActivity extends AppCompatActivity {
         mHideHandler.removeCallbacks(mHideRunnable);
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
     }
+
 }
